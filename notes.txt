@@ -1,0 +1,15 @@
+1.1
+Je veux les frequences entre 1 et 40 hertz, ce sont elles qui m'interessent.
+je dois faire un choix de canaux, mais au debut je vais envoyer les 64 on va voir si ca fonctionne
+
+1.2
+Pour mon pipeline, je lui envoie les datas d'un fichier .edf.
+
+Je recupere toutes les periodes ou il se passe qlqchose, donc qui ne sont pas T0, et a partir de la le modele doit predire si c'est T1 ou T2
+
+Etapes du pipeline :
+	
+
+	Appliquer le CSP
+
+	Classification : Prédire le mouvement avec un modèle (SVM, RF, etc.).
