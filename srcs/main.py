@@ -1,7 +1,9 @@
-from preprocess import preprocess_eeg
+from training.train import train
+from prediction.predict import predict
 
 def main():
-	preprocess_eeg()
+	train()
+	# predict()
 	
 if __name__ == "__main__":
 	main()
