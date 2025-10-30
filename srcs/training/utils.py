@@ -9,7 +9,7 @@ def get_epochs_by_event(raws):
 	for raw in raws:
 		try :
 			events, _ = mne.events_from_annotations(raw, event_id={'T0': 1, 'T1': 2, 'T2': 3}) # Returns events (shape [n_events, 3]) --> for each event gives [start moment (division by sfreq to get data in seconds), 0, event_id]
-			Epochs = mne.Epochs(raw, events, event_id={'T1': 2, 'T2': 3}, tmin=-0.2, tmax=0.5, baseline=(None, 0), preload=False, reject=None) # Create epochs for T1 and T2, shape (n_epochs, n_channels, n_times) like raw
+			Epochs = mne.Epochs(raw, events, event_id={'T1': 2, 'T2': 3}, tmin=-0.2, tmax=3.8, baseline=(None, 0), preload=False, reject=None) # Create epochs for T1 and T2, shape (n_epochs, n_channels, n_times) like raw
 			epochs_T1.append(Epochs['T1'].get_data()) # (n_epochs, n_channels, n_times) # For each epoch, gives the data for each channel at each time point, same structure as raw.get_data(), but only for the selected epochs
 			epochs_T2.append(Epochs['T2'].get_data())
 		except Exception as e:
