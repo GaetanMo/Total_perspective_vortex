@@ -3,7 +3,10 @@ import numpy as np
 import mne
 
 def predict(subject_number, run_number):
-
+	if subject_number < 1 or subject_number > 109:
+		print("Subject number must be between 1 and 109.")
+		return
+	
 	model = load_model()
 	if model is None:
 		print("No model available for prediction.")

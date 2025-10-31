@@ -9,7 +9,12 @@ import numpy as np
 import joblib
 
 def train(subject_number, run_number):
-	X, y = get_processed_data() # X tuple of epochs, y array of labels
+	if subject_number == 0 and subject_number == 0:
+		print("Training on all dataset...")
+		X, y = get_processed_data("all")
+	else:
+		print("Training on single subject and run...")
+		X, y = get_processed_data("single", subject_number, run_number) # X tuple of epochs, y array of labels
 
 	csp = MyCSP(n_components=8, log=True)
 
