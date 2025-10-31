@@ -8,21 +8,21 @@ from sklearn.model_selection import cross_val_score, StratifiedKFold
 import numpy as np
 import joblib
 
-def train():
+def train(subject_number, run_number):
 	X, y = get_processed_data() # X tuple of epochs, y array of labels
 
 	csp = MyCSP(n_components=8, log=True)
 
-	print("X shape:", X.shape)
 	clf = Pipeline([
 		('CSP', csp),
 		('LDA', LinearDiscriminantAnalysis())
 	]
 	)
+	clf.fit(X, y)
+	joblib.dump(clf, "model.joblib")
 	cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
 	scores = cross_val_score(clf, X, y, cv=cv, scoring='accuracy')
-	joblib.dump(clf, "model.joblib")
 
 	print("Scores par fold :", scores)
 	print("Précision moyenne :", np.mean(scores))
