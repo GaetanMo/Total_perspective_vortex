@@ -14,6 +14,9 @@ def train(subject_number, run_number):
 		print("Training on all dataset...")
 		try :
 			X, y = get_processed_data("all")
+		except FileNotFoundError as e:
+			print(f"Error: {str(e)}")
+			return
 		except Exception as e:
 			raise e
 	else:

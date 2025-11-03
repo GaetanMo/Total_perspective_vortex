@@ -41,4 +41,6 @@ def get_all_edf_files():
 	script_dir = Path(__file__).parent
 	root_dir = script_dir.parents[1] / "data"
 	edf_files = list(root_dir.rglob("*.edf"))
+	if not edf_files:
+		raise FileNotFoundError("No .edf files found in the specified directory.")
 	return edf_files

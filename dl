@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Base URL
+base_url="https://physionet.org/files/eegmmidb/1.0.0"
+
+# Loop through subjects S001 to S020
+for subject in $(seq -f "%03g" 1 20); do
+  # Loop through runs R01 to R14
+  for run in $(seq -f "%02g" 1 14); do
+    # Construct the full URL
+    url="$base_url/S$subject/S$subject""R$run.edf"
+    
+    # Use wget to download the file with the specified options
+    wget -r -N -c -np "$url"
+  done
+done
