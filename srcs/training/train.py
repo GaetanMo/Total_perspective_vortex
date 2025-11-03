@@ -26,14 +26,13 @@ def train(subject_number, run_number):
 
 	clf = Pipeline([
 		('CSP', csp),
-		('scaler', StandardScaler()),
-		('LDA', LinearDiscriminantAnalysis())
-	]
-	)
+		('scaler', StandardScaler()), # Normalize features
+		('LDA', LinearDiscriminantAnalysis()) # Classifier, LDA is simple and effective for BCI tasks, with linears separations
+	])
 	clf.fit(X, y)
 	joblib.dump(clf, "model.joblib")
-	cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
+	cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42) # Data shuffle and split in 5 parts, 4 for training, 1 for testing
 	scores = cross_val_score(clf, X, y, cv=cv, scoring='accuracy')
 
 	print(scores)

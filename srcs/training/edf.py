@@ -12,6 +12,7 @@ def get_processed_data(mode, subject_number=None, run_number=None):
 			epochs_T1, epochs_T2 = get_epochs_by_event(raws)
 			y = np.array([0]*epochs_T1.shape[0] + [1]*epochs_T2.shape[0]) # Labels: 0, 0, 0... for T1, 1, 1, 1... for T2
 			X = np.concatenate([epochs_T1, epochs_T2], axis=0) # Combine T1 and T2 epochs into a single dataset
+			print(f"Total epochs: {X.shape}, Labels shape: {y.shape}")
 		except Exception as e:
 			raise e
 	else:
