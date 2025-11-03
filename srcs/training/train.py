@@ -1,25 +1,26 @@
 from training.edf import get_processed_data
 import mne
-from mne.decoding import CSP
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.pipeline import Pipeline
 from training.myCSP import MyCSP
 from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 import joblib
 
 def train(subject_number, run_number):
+	mne.set_log_level('WARNING') # Reduce verbosity of MNE logs to warnings and errors only
 	if subject_number == 0 and subject_number == 0:
 		print("Training on all dataset...")
 		X, y = get_processed_data("all")
 	else:
-		print("Training on single subject and run...")
 		X, y = get_processed_data("single", subject_number, run_number) # X tuple of epochs, y array of labels
 
 	csp = MyCSP(n_components=8, log=True)
 
 	clf = Pipeline([
 		('CSP', csp),
+		('scaler', StandardScaler()),
 		('LDA', LinearDiscriminantAnalysis())
 	]
 	)
@@ -29,6 +30,6 @@ def train(subject_number, run_number):
 
 	scores = cross_val_score(clf, X, y, cv=cv, scoring='accuracy')
 
-	print("Scores par fold :", scores)
-	print("Précision moyenne :", np.mean(scores))
+	print(scores)
+	print("cross_val_score :", np.mean(scores))
 	print("Model trained successfully.")

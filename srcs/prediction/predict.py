@@ -3,6 +3,7 @@ import numpy as np
 import mne
 
 def predict(subject_number, run_number):
+	mne.set_log_level('WARNING') # Reduce verbosity of MNE logs to warnings and errors only
 	if subject_number < 1 or subject_number > 109:
 		print("Subject number must be between 1 and 109.")
 		return
@@ -13,12 +14,21 @@ def predict(subject_number, run_number):
 		return
 
 	raw = load_eeg_file(subject_number, run_number)
-	epochs_T1, epochs_T2 = get_datastream(raw)
+	epochs_in_order, labels = get_datastream(raw)
 
-	y = np.array([0]*epochs_T1.shape[0] + [1]*epochs_T2.shape[0]) # Labels: 0, 0, 0... for T1, 1, 1, 1... for T2
-	X = np.concatenate([epochs_T1, epochs_T2], axis=0) # Combine T1 and T2 epochs into a single dataset
-
-	predictions = model.predict(X)
-	accuracy = np.mean(predictions == y)
-	print(f"Prediction accuracy on test data: {accuracy*100:.2f}%")
+	print("epoch nb: [prediction] [truth] equal?")
+	# Simulating data stream prediction
+	# epoch = []
+	accuracy = 0
+	for i in range(len(epochs_in_order)):
+		current_epoch = epochs_in_order[i][np.newaxis, :, :]
+		# epoch.append(epochs_in_order[i])
+		prediction = model.predict(current_epoch)
+		if prediction[0] == labels[i]:
+			accuracy += 1
+		display_pred = 1 if prediction[0] == 0 else 2
+		display_label = 1 if labels[i] == 0 else 2
+		print(f"epoch {i:02d}:      [{display_pred}]      [{display_label}]    {prediction[0] == labels[i]}")
+	accuracy = (accuracy / len(labels)) * 100
+	print(f"Accuracy: {accuracy:.2f}%")
 	# Here load new EEG data real stream simulation
