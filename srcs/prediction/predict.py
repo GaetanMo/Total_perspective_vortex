@@ -22,12 +22,10 @@ def predict(subject_number, run_number, mode="single"):
 	if mode == "single":
 		print("epoch nb: [prediction] [truth] equal?")
 	# Simulating data stream prediction
-	# epoch = []
 	accuracy = 0
 	for i in range(len(epochs_in_order)):
 		# time.sleep(8.2)  # Simulate real-time delay
 		current_epoch = epochs_in_order[i][np.newaxis, :, :]
-		# epoch.append(epochs_in_order[i])
 		prediction = model.predict(current_epoch)
 		if prediction[0] == labels[i]:
 			accuracy += 1
@@ -39,4 +37,3 @@ def predict(subject_number, run_number, mode="single"):
 	if mode == "single":
 		print(f"Accuracy: {accuracy:.2f}%")
 	return accuracy
-	# Here load new EEG data real stream simulation
