@@ -12,10 +12,16 @@ def train(subject_number, run_number):
 	mne.set_log_level('WARNING') # Reduce verbosity of MNE logs to warnings and errors only
 	if subject_number == 0 and subject_number == 0:
 		print("Training on all dataset...")
-		X, y = get_processed_data("all")
+		try :
+			X, y = get_processed_data("all")
+		except Exception as e:
+			raise e
 	else:
-		X, y = get_processed_data("single", subject_number, run_number) # X tuple of epochs, y array of labels
-
+		try:
+			X, y = get_processed_data("single", subject_number, run_number) # X tuple of epochs, y array of labels
+		except Exception as e:
+			raise e
+	
 	csp = MyCSP(n_components=8, log=True)
 
 	clf = Pipeline([

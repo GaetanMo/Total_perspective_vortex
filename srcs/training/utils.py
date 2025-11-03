@@ -34,11 +34,11 @@ def load_eeg_data(file_paths):
 			raws.append(apply_filter(raw))
 		except Exception as e:
 			print(f"Error while loading {file_path}: {e}, skipping this file.")
+			raise e
 	return raws
 
 def get_all_edf_files():
 	script_dir = Path(__file__).parent
 	root_dir = script_dir.parents[1] / "data"
 	edf_files = list(root_dir.rglob("*.edf"))
-	print(f"{len(edf_files)} fichiers .edf trouvés dans {root_dir}")
 	return edf_files
