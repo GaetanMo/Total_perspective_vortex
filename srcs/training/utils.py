@@ -23,7 +23,7 @@ def get_epochs_by_event(raws):
 	return X_T1, X_T2
 
 def apply_filter(raw):
-	raw.filter(l_freq=8, h_freq=30)
+	raw.filter(l_freq=8, h_freq=40)
 	return raw
 
 def load_eeg_data(file_paths):
